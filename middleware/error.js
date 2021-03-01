@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
   let error = { ...err };
 
   // Log to console for dev
-  console.log(err);
+  console.log(error);
 
   // Mongoose bad ObjectID
   if (err.name === "CastError") {
@@ -26,7 +26,7 @@ const errorHandler = (err, req, res, next) => {
 
   res
     .status(error.statusCode || 500)
-    .json({ success: false, error: error.message || "Server error" });
+    .json({ success: false, error: error.message || err.message ||  "Server error" });
 };
 
 module.exports = errorHandler;

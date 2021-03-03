@@ -8,7 +8,15 @@ const {
   getRestaurantsInRadius,
 } = require("../controllers/restaurants");
 
+// Include other resource routers
+const courseRouter = require('./dishes')
+
 const router = express.Router();
+
+// Re-route into other resource routers
+router.use('/:restaurantId/dishes', courseRouter)
+
+
 
 router.route("/radius/:city/:distance").get(getRestaurantsInRadius);
 

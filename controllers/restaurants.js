@@ -28,7 +28,7 @@ exports.getRestaurants = asyncHandler(async (req, res, next) => {
   );
 
   // Finding resources
-  query = Restaurant.find(JSON.parse(queryStr));
+  query = Restaurant.find(JSON.parse(queryStr)).populate("dishes");
 
   // Pagination
   const page = parseInt(req.query.page, 10) || 1;
@@ -131,12 +131,14 @@ exports.updateRestaurant = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/v1/restaurants/:id
 // @access  Private
 exports.deleteRestaurant = asyncHandler(async (req, res, next) => {
-  const restaurant = await Restaurant.findByIdAndDelete(req.params.id);
+  const restaurant = await Restaurant.findById(req.params.id);
   if (!restaurant) {
     return next(
       new ErrorResponse(`Restaurant not found with id of ${req.params.id}`, 404)
     );
   }
+
+  restaurant.remove();
 
   res.status(200).json({ success: true, data: {} });
 });

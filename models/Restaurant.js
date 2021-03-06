@@ -98,7 +98,6 @@ RestaurantSchema.pre("save", async function (next) {
 });
 
 // Cascade delete courses when Restaurant is deleted
-
 RestaurantSchema.pre("remove", async function (next) {
     console.log(`Dishes being removed from restaurant ${this._id}`)
   await this.model("Dish").deleteMany({ restaurant: this._id });
@@ -106,7 +105,6 @@ RestaurantSchema.pre("remove", async function (next) {
 });
 
 // Reverse populate with virtuals
-
 RestaurantSchema.virtual("dishes", {
   ref: "Dish",
   localField: "_id",

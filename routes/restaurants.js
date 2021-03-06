@@ -6,6 +6,7 @@ const {
   deleteRestaurant,
   updateRestaurant,
   getRestaurantsInRadius,
+    restaurantUploadPhoto
 } = require("../controllers/restaurants");
 
 // Include other resource routers
@@ -22,6 +23,8 @@ router.route("/radius/:city/:distance").get(getRestaurantsInRadius);
 
 
 router.route("/").get(getRestaurants).post(createRestaurant);
+
+router.route("/:id/photo").put(restaurantUploadPhoto)
 
 router
   .route("/:id")

@@ -9,6 +9,10 @@ const {
     restaurantUploadPhoto
 } = require("../controllers/restaurants");
 
+const Restaurant = require('../models/Restaurant')
+
+const advancedResults = require('../middleware/advancedResults')
+
 // Include other resource routers
 const courseRouter = require('./dishes')
 
@@ -22,7 +26,7 @@ router.use('/:restaurantId/dishes', courseRouter)
 router.route("/radius/:city/:distance").get(getRestaurantsInRadius);
 
 
-router.route("/").get(getRestaurants).post(createRestaurant);
+router.route("/").get(advancedResults(Restaurant, 'dishes'),getRestaurants).post(createRestaurant);
 
 router.route("/:id/photo").put(restaurantUploadPhoto)
 

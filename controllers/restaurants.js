@@ -138,7 +138,7 @@ exports.deleteRestaurant = asyncHandler(async (req, res, next) => {
     );
   }
 
-  restaurant.remove();
+  await restaurant.remove();
 
   res.status(200).json({ success: true, data: {} });
 });

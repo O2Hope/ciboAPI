@@ -1,12 +1,16 @@
 const express = require("express");
 const {
     getDishes,
-    createDish
+    getDish,
+    createDish,
+    updateDish,
+    deleteDish
 } = require("../controllers/dishes");
 
 const router = express.Router({mergeParams: true});
 
 router.route("/").get(getDishes).post(createDish)
-router.route("/restaurants/:restaurantId/dishes").get(getDishes)
+router.route("/:id").get(getDish).put(updateDish).delete(deleteDish)
+
 
 module.exports = router;

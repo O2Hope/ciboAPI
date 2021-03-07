@@ -1,20 +1,31 @@
 const express = require("express");
 const {
-    getDishes,
-    getDish,
-    createDish,
-    updateDish,
-    deleteDish
+  getDishes,
+  getDish,
+  createDish,
+  updateDish,
+  deleteDish,
 } = require("../controllers/dishes");
 
-const advancedResults = require('../middleware/advancedResults')
+const { protect, authorize } = require("../middleware/auth");
 
-const Dish = require('../models/Dish')
+const advancedResults = require("../middleware/advancedResults");
 
-const router = express.Router({mergeParams: true});
+const Dish = require("../models/Dish");
 
-router.route("/").get(advancedResults(Dish,{path: 'restaurant', select: "name description"}),getDishes).post(createDish)
-router.route("/:id").get(getDish).put(updateDish).delete(deleteDish)
+const router = express.Router({ mergeParams: true });
 
+router
+  .route("/")
+  .get(
+    advancedResults(Dish, { path: "restaurant", select: "name description" }),
+    getDishes
+  )
+  .post(protect, authorize("publisher", "admin"), createDish);
+router
+  .route("/:id")
+  .get(getDish)
+  .put(protect, authorize("publisher", "admin"), updateDish)
+  .delete(protect, authorize("publisher", "admin"), deleteDish);
 
 module.exports = router;
